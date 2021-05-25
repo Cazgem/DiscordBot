@@ -1,5 +1,7 @@
 const config = require('./config.js');
 const Discord = require('discord.js');
+const mongo = require('./mongo');
+const command = require('./command');
 const fs = require('fs');
 const prefix = '=';
 
@@ -21,9 +23,16 @@ for (const folder of commandFolders) {
     }
 }
 
-discord.on('ready', () => {
+discord.on('ready', async () => {
     console.log(chalk.yellow('I am ready for Discord!'));
     console.log(chalk.yellow('Prefix Set as ' + prefix));
+    await mongo().then(mongoose => {
+        try {
+
+        } finally {
+            mongoose.connection.close()
+        }
+    })
 });
 const BannedWords = ["fuck", "swear1"];
 discord.on('message', message => {
