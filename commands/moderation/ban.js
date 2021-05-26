@@ -2,12 +2,14 @@ module.exports = {
     name: 'ban',
     description: 'Tag a member and ban them.',
     guildOnly: true,
-    permissions: ['KICK_MEMBERS'],
-    execute(message) {
-        const content = message.content.replace(`=ban `, ``)
-        console.log(content)
-        const targetMember = discord.users.cache.find(user => user.id === `${content}`)
-        targetMember.ban()
-        message.channel.send(`${taggedUser.username} has been Banned!`);
-    },
+    permissions: ['BAN_MEMBERS'],
+    async execute(message, args, discord) {
+        const offender = (await message.guild.member(message.mentions.users.first())) || message.guild.members.cache.get(args[0]) //returns mentioned user
+        if (offender) {
+            let banReason = args.join(" ").slice(args[0].length + 1);
+            offender.ban(`${banReason}`)
+        } else {
+            message.channel.send(`No user found: ${offender}`);
+        }
+    }
 };
