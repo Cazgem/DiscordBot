@@ -1,6 +1,6 @@
 const { prefix } = require('./config.js');
 
-module.export = (client, aliases, callback) => {
+module.exports = (client, aliases, callback) => {
     if (typeof aliases === 'string') {
         aliases = [aliases]
     }

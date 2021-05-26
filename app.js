@@ -1,10 +1,8 @@
 const config = require('./config.js');
 const Discord = require('discord.js');
 const mongo = require('./mongo');
-const command = require('./command');
 const fs = require('fs');
 const prefix = '=';
-
 const discord = new Discord.Client({ partials: ["MESSAGE", "CHANNEL", "REACTION"] });
 const chalk = require('chalk');
 
@@ -31,6 +29,12 @@ discord.on('ready', async () => {
 
         } finally {
             mongoose.connection.close()
+        }
+    })
+    discord.user.setPresence({
+        activity: {
+            name: 'Victoria 3',
+            type: 0
         }
     })
 });
@@ -92,7 +96,7 @@ discord.on('message', message => {
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
     try {
-        command.execute(message, args);
+        command.execute(message, args, discord);
     } catch (error) {
         console.error(error);
         message.reply('there was an error trying to execute that command!');
