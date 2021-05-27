@@ -46,24 +46,14 @@ discord.on('ready', async () => {
             type: 0
         }
     })
-    const baseFile = 'command-base.js'
-    const commandBase = require(`./commands/${baseFile}`)
-
-    const readCommands = dir => {
-        const files = fs.readdirSync(path.join(__dirname, dir))
-        for (const file of files) {
-            const stat = fs.lstatSync(path.join(__dirname, dir, file))
-            if (stat.isDirectory()) {
-                console.log(`--- ${file} ---`)
-                readCommands(path.join(dir, file))
-            } else if (file !== baseFile) {
-                const option = require(path.join(__dirname, dir, file))
-                commandBase(discord, option)
-            }
-        }
-    }
-
-    readCommands('commands')
+    discord.registry
+        .registerGroups([
+            ['misc', 'micsellanious commands'],
+            ['fun', 'fun commands'],
+            ['moderation', 'Moderation Commands']
+        ])
+        .registerDefaults()
+        .registerCommandsIn(path.join(__dirname, 'cmds'))
 });
 const _join = async (data, member) => {
     const { guild } = member
@@ -113,69 +103,69 @@ discord.on('message', message => {
                 // message.reply('it seems like I can\'t DM you!');
             });
     };
-    if (!message.content.startsWith(prefix) || message.author.bot) return;
+    // if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-    const args = message.content.slice(prefix.length).trim().split(/ +/);
-    const commandName = args.shift().toLowerCase();
-    if (commandName === 'welcome') {
-        onJoin(message.member)
-    }
-    const command = discord.commands.get(commandName)
-        || discord.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+    // const args = message.content.slice(prefix.length).trim().split(/ +/);
+    // const commandName = args.shift().toLowerCase();
+    // if (commandName === 'welcome') {
+    //     onJoin(message.member)
+    // }
+    // const command = discord.commands.get(commandName)
+    //     || discord.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
-    if (!command) return;
-    if (command === 'reactionrole') {
-        discord.commands.get('reactionrole').execute(message, args, Discord, client)
-    }
-    if (command.guildOnly && message.channel.type === 'dm') {
-        return message.reply('I can\'t execute that command inside DMs!');
-    }
+    // if (!command) return;
+    // if (command === 'reactionrole') {
+    //     discord.commands.get('reactionrole').execute(message, args, Discord, client)
+    // }
+    // if (command.guildOnly && message.channel.type === 'dm') {
+    //     return message.reply('I can\'t execute that command inside DMs!');
+    // }
 
-    if (command.permissions) {
-        const authorPerms = message.channel.permissionsFor(message.author);
-        if (!authorPerms || !authorPerms.has(command.permissions)) {
-            return message.reply('You can not do this!');
-        }
-    }
+    // if (command.permissions) {
+    //     const authorPerms = message.channel.permissionsFor(message.author);
+    //     if (!authorPerms || !authorPerms.has(command.permissions)) {
+    //         return message.reply('You can not do this!');
+    //     }
+    // }
 
-    if (command.args && !args.length) {
-        let reply = `You didn't provide any arguments, ${message.author}!`;
+    // if (command.args && !args.length) {
+    //     let reply = `You didn't provide any arguments, ${message.author}!`;
 
-        if (command.usage) {
-            reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
-        }
+    //     if (command.usage) {
+    //         reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+    //     }
 
-        return message.channel.send(reply);
-    }
+    //     return message.channel.send(reply);
+    // }
 
-    const { cooldowns } = discord;
+    // const { cooldowns } = discord;
 
-    if (!cooldowns.has(command.name)) {
-        cooldowns.set(command.name, new Discord.Collection());
-    }
+    // if (!cooldowns.has(command.name)) {
+    //     cooldowns.set(command.name, new Discord.Collection());
+    // }
 
-    const now = Date.now();
-    const timestamps = cooldowns.get(command.name);
-    const cooldownAmount = (command.cooldown || 3) * 1000;
+    // const now = Date.now();
+    // const timestamps = cooldowns.get(command.name);
+    // const cooldownAmount = (command.cooldown || 3) * 1000;
 
-    if (timestamps.has(message.author.id)) {
-        const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+    // if (timestamps.has(message.author.id)) {
+    //     const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
-        if (now < expirationTime) {
-            const timeLeft = (expirationTime - now) / 1000;
-            return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
-        }
-    }
+    //     if (now < expirationTime) {
+    //         const timeLeft = (expirationTime - now) / 1000;
+    //         return message.reply(`please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`);
+    //     }
+    // }
 
-    timestamps.set(message.author.id, now);
-    setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+    // timestamps.set(message.author.id, now);
+    // setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
-    try {
-        command.execute(message, args, discord);
-    } catch (error) {
-        console.error(error);
-        message.reply('there was an error trying to execute that command!');
-    }
+    // try {
+    //     command.execute(message, args, discord);
+    // } catch (error) {
+    //     console.error(error);
+    //     message.reply('there was an error trying to execute that command!');
+    // }
 });
 discord.login(config.discord.token);
 discord.on('guildMemberAdd', (member) => {
