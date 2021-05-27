@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const discord = new Discord.Client({ partials: ["MESSAGE", "CHANNEL", "REACTION"] });
 module.exports = {
-    name: 'status',
+    commands: 'status',
     description: 'change Bot Status.',
     execute(message, args, discord) {
         const content = message.content.replace(`=status `, ``)

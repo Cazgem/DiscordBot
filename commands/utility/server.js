@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'server',
+    commands: 'server',
     description: 'Display info about this server.',
     permissions: 'ADMINISTRATOR',
     execute(message) {

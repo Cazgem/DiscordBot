@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'website',
+    commands: 'website',
     description: 'Website Link',
     aliases: ['web', 'www'],
     execute(message, args) {

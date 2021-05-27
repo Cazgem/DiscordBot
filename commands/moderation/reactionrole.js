@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const messageSchema = require('../../models/message.js');
 
 module.exports = {
-    name: 'reactionrole',
+    commands: 'reactionrole',
     description: 'Sets up a reaction role message!',
     requiredPermissions: ['ADMINISTRATOR'],
     async execute(message, args, qwerty, discord) {

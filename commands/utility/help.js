@@ -1,7 +1,7 @@
 const { prefix } = require('../../config.js');
 
 module.exports = {
-    name: 'help',
+    commands: 'help',
     description: 'List all of my commands or info about a specific command.',
     aliases: ['commands'],
     usage: '[command name]',

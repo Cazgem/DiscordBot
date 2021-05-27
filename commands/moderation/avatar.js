@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'avatar',
+    commands: 'avatar',
     description: 'Get the avatar URL of the tagged user(s), or your own avatar.',
     aliases: ['icon', 'pfp'],
     permissions: ['KICK_MEMBERS'],

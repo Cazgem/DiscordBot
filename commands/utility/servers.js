@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const discord = new Discord.Client({ partials: ["MESSAGE", "CHANNEL", "REACTION"] });
 module.exports = {
-    name: 'servers',
+    commands: 'servers',
     description: 'Display info about servers.',
     permissions: 'ADMINISTRATOR',
     execute(message, args, discord) {

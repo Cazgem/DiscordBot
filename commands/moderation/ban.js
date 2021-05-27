@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'ban',
+    commands: 'ban',
     description: 'Tag a member and ban them.',
     guildOnly: true,
     permissions: ['BAN_MEMBERS'],

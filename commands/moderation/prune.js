@@ -1,5 +1,5 @@
 module.exports = {
-    name: 'prune',
+    commands: 'prune',
     description: 'Prune up to 99 messages.',
     aliases: ['cc', 'clear', 'purge'],
     permissions: ['KICK_MEMBERS'],
