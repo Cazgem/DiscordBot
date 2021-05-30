@@ -1,11 +1,21 @@
 const mongo = require('../../mongo.js');
 const welcomeSchema = require('../../schemas/welcome-schema')
+const Commando = require('discord.js-commando')
 
-module.exports = {
-    commands: 'setwelcome',
-    description: 'Write Welcome Message.',
-    permissions: ['ADMINISTRATOR'],
-    async execute(message, args, discord) {
+module.exports = class AddCommand extends Commando.Command {
+    constructor(client) {
+        super(client, {
+            name: 'setwelcome',
+            group: 'admin',
+            memberName: 'setwelcome',
+            description: 'Write Welcome Message.',
+            argsType: 'multiple',
+            clientPermissions: ['ADMINISTRATOR'],
+            userPermissions: ['ADMINISTRATOR'],
+        })
+    }
+
+    async run(message, args) {
         const cache = {}
 
         const { member, channel, content, guild } = message
@@ -38,4 +48,4 @@ module.exports = {
         })
         message.delete()
     }
-}
+};

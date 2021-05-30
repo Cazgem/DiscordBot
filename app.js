@@ -8,7 +8,7 @@ const prefix = '=';
 // const discord = new Discord.Client({ partials: ["MESSAGE", "CHANNEL", "REACTION"] });
 const chalk = require('chalk');
 const welcomeSchema = require('./schemas/welcome-schema.js');
-const messageCount = require('./utilities/message-counter')
+const messageCount = require('./util/message-counter')
 const discord = new Commando.CommandoClient({
     owner: '83055939267067904',
     commandPrefix: config.prefix
@@ -48,9 +48,12 @@ discord.on('ready', async () => {
     })
     discord.registry
         .registerGroups([
-            ['misc', 'micsellanious commands'],
-            ['fun', 'fun commands'],
-            ['moderation', 'Moderation Commands']
+            ['admin', 'Admin Commands'],
+            ['fun', 'Fun Commands'],
+            ['misc', 'Micsellanious Commands'],
+            ['moderation', 'Moderation Commands'],
+            ['superadmin', 'Super Administrator Commands'],
+            ['utility', 'Other Useful Commands']
         ])
         .registerDefaults()
         .registerCommandsIn(path.join(__dirname, 'cmds'))
