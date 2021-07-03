@@ -19,8 +19,8 @@ module.exports = class AddCommand extends Commando.Command {
     }
 
     async run(message, args) {
-        discord.guilds.cache.forEach((guild) => {
-            message.channel.send(`Server name: ${message.guild.name}\nTotal members: ${message.guild.memberCount}`)
+        this.client.guilds.cache.forEach((guild) => {
+            message.channel.send(`Server name: ${guild.name}\nTotal members: ${guild.memberCount}`)
         })
     }
 };

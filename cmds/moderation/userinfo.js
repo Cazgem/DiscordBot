@@ -16,6 +16,13 @@ module.exports = class AddCommand extends Commando.Command {
     }
 
     async run(message, args) {
-        message.channel.send(`Your username: ${message.author.username}\nYour ID: ${message.author.id}`);
+        const target = message.mentions.users.first()
+        if (target) {
+            const { id } = target
+            const { guild } = message
+            message.channel.send(`Username: ${target.username}\nID: ${id}\n---------------------------\nModeration Info Coming Soon!`);
+        } else {
+            message.channel.send(`Your username: ${message.author.username}\nYour ID: ${message.author.id}`);
+        }
     }
 };

@@ -1,9 +1,9 @@
 const Commando = require('discord.js-commando')
 const config = require('../../config')
-const discord = new Commando.CommandoClient({
-    owner: '83055939267067904',
-    commandPrefix: config.prefix
-})
+// const discord = new Commando.CommandoClient({
+//     owner: '83055939267067904',
+//     commandPrefix: config.prefix
+// })
 
 module.exports = class AddCommand extends Commando.Command {
     constructor(client) {
@@ -13,17 +13,20 @@ module.exports = class AddCommand extends Commando.Command {
             memberName: 'status',
             description: 'Changes Bot Status',
             argsType: 'single',
+            clientPermissions: ['ADMINISTRATOR'],
+            userPermissions: ['ADMINISTRATOR'],
             format: '<BOT_STATUS>'
         })
     }
 
-    async run(message, args, client) {
+    async run(message, args) {
         console.log(args)
-        client.user.setPresence({
+        this.client.user.setPresence({
             activity: {
                 name: args,
                 type: 0
             }
         })
+            .catch(console.error)
     }
 };
